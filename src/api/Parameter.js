@@ -3,23 +3,19 @@ import axiosApi from './AxiosApi.js'
 const apiList = {
   page: {
     method: 'GET',
-    url: `/authority/dictionaryItem/page`
+    url: `/authority/parameter/page`,
   },
   update: {
     method: 'PUT',
-    url: `/authority/dictionaryItem`
+    url: `/authority/parameter`
   },
   save: {
     method: 'POST',
-    url: `/authority/dictionaryItem`
+    url: `/authority/parameter`
   },
   delete: {
     method: 'DELETE',
-    url: `/authority/dictionaryItem`
-  },
-  list: {
-    method: 'GET',
-    url: `/authority/dictionaryItem`
+    url: `/authority/parameter`
   }
 }
 
@@ -27,7 +23,6 @@ export default {
   page (data) {
     return axiosApi({
       ...apiList.page,
-      formData: true,
       data
     })
   },
@@ -46,12 +41,6 @@ export default {
   delete (data) {
     return axiosApi({
       ...apiList.delete,
-      data
-    })
-  },
-  list (data) {
-    return axiosApi({
-      ...apiList.list,
       data
     })
   }

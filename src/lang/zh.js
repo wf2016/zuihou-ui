@@ -62,6 +62,9 @@ export default {
       passwordErrorNum: '密码错误次数',
       passwordExpireTime: '密码过期时间',
       lastLoginTime: '最后登录时间',
+      nation: '民族',
+      education: '学历',
+      positionStatus: '职位状态',
       createTime: '创建时间',
       updateTime: '修改时间',
       oldPassword: '旧密码',
@@ -81,7 +84,7 @@ export default {
     },
     menu: {
       id: 'ID',
-      name: '名称',
+      label: '名称',
       describe: '描述',
       code: '权限编码',
       isPublic: '是否公有',
@@ -100,7 +103,7 @@ export default {
       describe: '描述'
     },
     org: {
-      name: '部门名称',
+      label: '部门名称',
       abbreviation: '简称',
       describe: '描述',
       parentId: '上级ID',
@@ -259,6 +262,14 @@ export default {
       parentId: '上级地区',
       source: '数据来源'
     },
+    parameter: {
+      key: "参数键",
+      name: "参数名称",
+      value: '参数值',
+      describe: '描述',
+      status: '状态',
+      readonly: '只读'
+    },
     gen: {
       config: {
         author: '作者名称',
@@ -397,6 +408,7 @@ export default {
     cancel: '取消',
     add: '新增',
     edit: '修改',
+    copy: '复制',
     upload: '上传',
     yes: '是',
     no: '否',

@@ -4,7 +4,7 @@
       <el-col :sm="6" :xs="24">
         <div class="app-container">
           <div class="filter-container">
-            <el-input :placeholder="$t('table.menu.name')" @keyup.enter.native="search" class="filter-item search-item" clearable v-model="name" />
+            <el-input :placeholder="$t('table.menu.label')" @keyup.enter.native="search" class="filter-item search-item" clearable v-model="label" />
             <!-- <el-button
               class='filter-item'
               type='primary'
@@ -55,8 +55,8 @@
                   <el-input readonly v-model="menu.parentId" />
                 </el-tooltip>
               </el-form-item>
-              <el-form-item :label="$t('table.menu.name')" prop="name">
-                <el-input v-model="menu.name" />
+              <el-form-item :label="$t('table.menu.label')" prop="label">
+                <el-input v-model="menu.label" />
               </el-form-item>
               <!-- <el-form-item :label='$t("table.menu.type")' prop='type'>
                 <el-radio-group v-model='menu.type'>
@@ -66,6 +66,9 @@
               </el-form-item>-->
               <el-form-item :label="$t('table.menu.path')" prop="path">
                 <el-input @keyup.native="menuPath" v-model="menu.path" />
+              </el-form-item>
+              <el-form-item :label="$t('table.menu.component')" prop="component">
+                <el-input  v-model="menu.component" />
                 <span>{{ menuComponent }}</span>
               </el-form-item>
               <el-form-item :label="$t('table.menu.icon')" prop="icon">
@@ -191,7 +194,7 @@ export default {
       },
       iconVisible: false,
       menuTree: [],
-      name: '',
+      label: '',
       menu: this.initMenu(),
       resourceQueryParams: {
         menuId: null
@@ -208,7 +211,7 @@ export default {
         current: 1
       },
       rules: {
-        name: [
+        label: [
           { required: true, message: this.$t('rules.require'), trigger: 'blur' },
           { min: 1, max: 255, message: this.$t('rules.range2to10'), trigger: 'blur' }
         ],
@@ -236,10 +239,11 @@ export default {
         if (isUrl) {
           comp = `跳转地址：${this.menu.path}`
         } else {
-          comp = `前端组件：zuihou${this.menu.path}/Index.vue`
+          // comp = `前端组件：src/views/zuihou${this.menu.path}/Index.vue`
+          comp = `组件路径：src/views/${this.menu.component}.vue`
         }
       } else {
-        comp = `前端组件：zuihou/Index.vue`
+        comp = `组件路径：src/views/zuihou/Index.vue`
       }
       return comp
     }
@@ -291,7 +295,7 @@ export default {
     initMenu () {
       return {
         id: '',
-        name: '',
+        label: '',
         describe: '',
         code: '',
         isPublic: false,
@@ -312,7 +316,6 @@ export default {
     },
     nodeClick (data) {
       this.menu = { ...data }
-      this.menu.name = this.menu.label
       this.$refs.form.clearValidate()
 
       this.resourceQueryParams.menuId = data.id
@@ -373,11 +376,11 @@ export default {
     },
     reset () {
       this.initMenuTree()
-      this.name = ''
+      this.label = ''
       this.resetForm()
     },
     search () {
-      this.$refs.menuTree.$refs.treeRef.filter(this.name)
+      this.$refs.menuTree.$refs.treeRef.filter(this.label)
     },
     add () {
       this.resetForm()

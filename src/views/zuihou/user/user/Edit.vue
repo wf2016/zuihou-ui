@@ -89,12 +89,23 @@
       </el-form-item>
       <el-form-item :label="$t('table.user.sex')" prop="sex">
         <el-select placeholder style="width:100%" v-model="user.sex.code" value>
-          <el-option
-            :key="index"
-            :label="item"
-            :value="key"
-            v-for="(item, key, index) in enums.Sex"
+          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in enums.Sex"
           />
+        </el-select>
+      </el-form-item>
+      <el-form-item :label="$t('table.user.nation')" prop="nation">
+        <el-select style="width:100%"  :placeholder="$t('table.user.nation')" v-model="user.nation.key" value>
+          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.NATION" />
+        </el-select>
+      </el-form-item>
+      <el-form-item :label="$t('table.user.education')" prop="education">
+        <el-select style="width:100%"  :placeholder="$t('table.user.education')" v-model="user.education.key" value>
+          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.EDUCATION" />
+        </el-select>
+      </el-form-item>
+      <el-form-item :label="$t('table.user.positionStatus')" prop="positionStatus">
+        <el-select style="width:100%"  :placeholder="$t('table.user.positionStatus')" v-model="user.positionStatus.key" value>
+          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.POSITION_STATUS" />
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('table.user.status')" prop="status">
@@ -156,6 +167,14 @@ export default {
       imgFileTotal: 0,
       // 上传成功数
       successNum: 0,
+      enums:{
+        Sex:{}
+      },
+      dicts:{
+        NATION: {},
+        POSITION_STATUS: {},
+        EDUCATION: {},
+      },
       rules: {
         account: [
           {
@@ -227,9 +246,6 @@ export default {
         this.reset();
       }
     },
-    enums() {
-      return this.$store.state.common.enums;
-    },
     title() {
       return this.type === "add"
         ? this.$t("common.add")
@@ -241,6 +257,7 @@ export default {
     "user.org.key": "orgSelect"
   },
   mounted() {
+    // initEnums(['Sex'], this.enums)
     window.onresize = () => {
       return (() => {
         this.width = this.initWidth();
@@ -272,6 +289,15 @@ export default {
         mobile: "",
         sex: {
           code: "N"
+        },
+        nation: {
+          key: ""
+        },
+        education: {
+          key: ""
+        },
+        positionStatus: {
+          key: ""
         },
         status: true,
         avatar: "",
@@ -318,11 +344,15 @@ export default {
         vm.$store.state.hasLoading = false;
       }
     },
-    setUser(val, orgs) {
+    setUser(val, orgs, dicts, enums) {
+      debugger
       const vm = this;
       if (val) {
         vm.user = { ...val };
       }
+      vm.dicts = dicts;
+      vm.enums = enums;
+
       vm.orgList = orgs;
       vm.imgFileData.bizId = vm.user["id"];
       vm.$nextTick(() => {
@@ -354,7 +384,6 @@ export default {
     },
     submitForm() {
       const vm = this;
-      debugger;
       this.$refs.form.validate(valid => {
         if (valid) {
           vm.editSubmit();

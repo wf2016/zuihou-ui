@@ -62,6 +62,9 @@ export default {
       passwordErrorNum: 'PasswordErrorNum',
       passwordExpireTime: 'PasswordExpireTime',
       lastLoginTime: 'LastLoginTime',
+      nation: 'nation',
+      education: 'education',
+      positionStatus: 'positionStatus',
       createTime: 'CreateTime',
       updateTime: 'ModifyTime',
       oldPassword: 'Old Password',
@@ -81,7 +84,7 @@ export default {
     },
     menu: {
       id: 'ID',
-      name: 'Name',
+      label: 'Label',
       describe: 'Describe',
       code: 'Permissions',
       isPublic: 'IsPublic',
@@ -100,7 +103,7 @@ export default {
       describe: 'Describe'
     },
     org: {
-      name: 'Name',
+      label: 'label',
       abbreviation: 'Abbreviation',
       describe: 'Describe',
       parentId: 'ParentId',
@@ -259,6 +262,14 @@ export default {
       parentId: 'parent',
       source: 'source'
     },
+    parameter: {
+      key: "key",
+      name: "name",
+      value: 'value',
+      describe: 'describe',
+      status: 'status',
+      readonly: 'readonly'
+    },
     gen: {
       config: {
         author: 'Author',
@@ -397,6 +408,7 @@ export default {
     cancel: 'Cancel',
     add: 'Create',
     edit: 'Modify',
+    copy: 'Copy',
     upload: 'Upload',
     username: 'User Name',
     dept: 'Department',

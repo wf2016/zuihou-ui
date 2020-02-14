@@ -113,7 +113,8 @@
 <script>
 import Pagination from '@/components/Pagination'
 import smsTaskApi from '@/api/SmsTask.js'
-import { converEnum } from '@/utils/utils'
+import { convertEnum } from '@/utils/utils'
+import { initMsgsEnums } from '@/utils/commons'
 
 export default {
   name: 'StationManage',
@@ -143,6 +144,7 @@ export default {
       tableData: {
         total: 0
       },
+      enums:{ TaskStatus: {}},
       pagination: {
         size: 10,
         current: 1
@@ -151,15 +153,18 @@ export default {
   },
   computed: {
     statusFilters () {
-      return converEnum(this.$store.state.common.enums.TaskStatus)
+      return convertEnum(this.enums.TaskStatus)
     }
   },
   watch: {
-    $route () {
-      this.fetch()
+    '$route' (to) {
+      if(to.path === '/sms/manage'){
+        this.fetch();
+      }
     }
   },
   mounted () {
+    initMsgsEnums(['TaskStatus'], this.enums)
     this.fetch()
   },
   methods: {
