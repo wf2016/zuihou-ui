@@ -70,7 +70,7 @@
         prop="submittedFileName"
       >
         <template slot-scope="scope">
-          <div @click="onView(scope.row)">
+          <div @click="onView(scope.row)" class="hover-effect">
             <i :class="scope.row.icon" class="button-list" />
             <span>{{ scope.row.submittedFileName }}</span>
           </div>
@@ -190,6 +190,7 @@ import AttachmentEdit from "./Edit";
 import attachmentApi from "@/api/Attachment.js";
 import { renderSize } from "@/utils/utils";
 import { onlinePreview } from "@/settings";
+import { downloadFile } from '@/utils/commons'
 
 export default {
   name: "AttachmentManage",
@@ -318,46 +319,7 @@ export default {
     },
     download(ids) {
       attachmentApi.download({ ids: ids }).then(response => {
-        const res = response.data;
-        const type = res.type;
-        if (type.includes("application/json")) {
-          let reader = new FileReader();
-          reader.onload = e => {
-            if (e.target.readyState === 2) {
-              let data = JSON.parse(e.target.result);
-              this.$message({
-                message: data.msg,
-                type: "warning"
-              });
-            }
-          };
-          reader.readAsText(res);
-        } else {
-          let disposition = response.headers["content-disposition"];
-          let fileName = "下载文件.zip";
-          if (disposition) {
-            let respcds = disposition.split(";");
-            for (let i = 0; i < respcds.length; i++) {
-              let header = respcds[i];
-              if (header !== null && header !== "") {
-                let headerValue = header.split("=");
-                if (headerValue !== null && headerValue.length > 0) {
-                  if (headerValue[0].toLowerCase() === "filename") {
-                    fileName = decodeURI(headerValue[1]);
-                    break;
-                  }
-                }
-              }
-            }
-          }
-          let blob = new Blob([res]);
-          let link = document.createElement("a");
-          link.href = window.URL.createObjectURL(blob);
-          link.download = fileName;
-          link.click();
-          window.URL.revokeObjectURL(link.href);
-        }
-
+        downloadFile(response);
         this.clearSelections();
       });
     },
@@ -435,5 +397,15 @@ export default {
   color: #777;
   font-size: 2em;
   border-bottom: 1px solid #e5e5e5;
+}
+div{
+  &.hover-effect {
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.025);
+    }
+  }
 }
 </style>
